@@ -26,7 +26,7 @@ We'll also need to add SVN,MVN,GIT to checkout the Apache cTAKES code.
 	$ mvn -version
 	$ mkdir ~/src
 	$ cd ~/src
-	$ git clone https://github.com/sameeraxiomine/hadoop2_ctakes.git
+	$ git clone https://github.com/wadkars/hadoop2_ctakes.git
 	$ cd hadoop2_ctakes
 	$ cd ~/src
 	$ svn co https://svn.apache.org/repos/asf/ctakes/trunk/@1499008
