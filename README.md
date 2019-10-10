@@ -23,6 +23,8 @@ We'll also need to add SVN,MVN,GIT to checkout the Apache cTAKES code.
 	
 ## Install Hadoop CTakes
 	# su - ctakesuser 
+	# sudo yum install maven
+	# sudo yum install svn
 	$ mvn -version
 	$ mkdir ~/src
 	$ cd ~/src
