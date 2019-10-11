@@ -129,7 +129,7 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 		result.set(0, input.get(0));
 		result.set(1, true);
 		String inputStr = (String)input.get(1);
-		inputStr = inputStr.replaceAll("\\r|\\n", "");
+		//inputStr = inputStr.replaceAll("\\r|\\n", "");
 		//System.out.println(inputStr);
 		//result.set(2, ((String)input.get(1)).replace("\n", " ").replace("\r", " "));
 		//inputStr="";
@@ -398,11 +398,11 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 		TupleFactory tf = TupleFactory.getInstance();
 		List<String> l = new ArrayList<>();
 		l.add("Test Document");
-		l.add("Nasal trauma is an injury to your nose or the areas that surround and support your nose. Internal or external injuries can cause nasal trauma. The position of your nose makes your nasal bones, cartilage, and soft tissue particularly vulnerable to external injuries");
+		//l.add("Nasal trauma is an injury to your nose or the areas that surround and support your nose. Internal or external injuries can cause nasal trauma. The position of your nose makes your nasal bones, cartilage, and soft tissue particularly vulnerable to external injuries");
 		
-		//String s = FileUtils.readFileToString(new File("/tmp/CTAKES_DATA/9380.txt"));
+		String s = FileUtils.readFileToString(new File("/tmp/CTAKES_DATA/9380.txt"));
 		//System.out.println(s);
-		//l.add(s);
+		l.add(s);
 		Tuple t = tf.newTuple(l);
 		Tuple o = p.exec(t);
 		System.out.println(o.get(0) + "\n" + o.get(1) + "\n" + o.get(2) + "\n" +o.get(3));
