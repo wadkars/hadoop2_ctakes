@@ -47,7 +47,7 @@ public class SmallFilesToSequenceFile extends Configured implements Tool {
 		job.setInputFormatClass(FullFileInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
 		
-		//job.setNumReduceTasks(1);
+		job.setNumReduceTasks(Integer.parseInt(args[2]));
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
 	    FileOutputFormat.setOutputPath(job, new Path(args[1]));
 	    
