@@ -125,16 +125,23 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 		*/
 		long started = System.currentTimeMillis();
 		Tuple resultOnly = tf.newTuple(2);
-		Tuple result = tf.newTuple(4);
-		result.set(0, input.get(0));
-		result.set(1, true);
+		Tuple result = tf.newTuple(5);
+		
+		String fNameId = input.get(0).toString();
+		//Now split it
+		int idx = fNameId.lastIndexOf("-");
+		String partName = fNameId.substring(idx+1, fNameId.length());
+		String fName = fNameId.substring(0,idx);
+		result.set(0, fName);
+		result.set(1, partName);
+		result.set(2, true);
 		String inputStr = (String)input.get(1);
 		//inputStr = inputStr.replaceAll("\\r|\\n", "");
 		//System.out.println(inputStr);
 		//result.set(2, ((String)input.get(1)).replace("\n", " ").replace("\r", " "));
 		//inputStr="";
-		result.set(2, inputStr);
-		result.set(3, "");
+		result.set(3, inputStr);
+		result.set(4, "");
 		try {
 			System.out.println(input.get(0) + ": Reported progress");
 			progress();
@@ -168,21 +175,21 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 			}
 			//result = t.getResult();
 			//result.set(0,input.get(1));
-			result.set(1, t.getResult().get(0));
-			result.set(3, ((String)t.getResult().get(1)).replace("\n", "").replace("\r", ""));
+			result.set(2, t.getResult().get(0));
+			result.set(4, ((String)t.getResult().get(1)).replace("\n", "").replace("\r", ""));
 			System.out.println(input.get(0) + ": Completed processing in "
 					+ Long.toString(System.currentTimeMillis() - started));
 		} catch (ResourceInitializationException e) {
-			result.set(1, false);
-			result.set(3,ExceptionUtils.getStackTrace(e));
+			result.set(2, false);
+			result.set(4,ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 			log.error(e.getMessage());
 			e.printStackTrace();
 		} 
 		
 		catch (InterruptedException e) {
-			result.set(1, false);
-			result.set(3,ExceptionUtils.getStackTrace(e));
+			result.set(2, false);
+			result.set(4,ExceptionUtils.getStackTrace(e));
 			e.printStackTrace();
 		}
 		return result;
@@ -212,7 +219,8 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 	public Schema outputSchema(Schema input) {
 		try {
 			Schema tupleSchema = new Schema();
-			tupleSchema.add(new FieldSchema("title", DataType.CHARARRAY));
+			tupleSchema.add(new FieldSchema("fname", DataType.CHARARRAY));
+			tupleSchema.add(new FieldSchema("part", DataType.CHARARRAY));
 			tupleSchema.add(new FieldSchema("parsed", DataType.BOOLEAN));
 			tupleSchema.add(new FieldSchema("text", DataType.CHARARRAY));
 			//tupleSchema.add(input.getField(0));
@@ -397,12 +405,12 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 		CTakesExtractor p = new CTakesExtractor();
 		TupleFactory tf = TupleFactory.getInstance();
 		List<String> l = new ArrayList<>();
-		l.add("Test Document");
-		//l.add("Nasal trauma is an injury to your nose or the areas that surround and support your nose. Internal or external injuries can cause nasal trauma. The position of your nose makes your nasal bones, cartilage, and soft tissue particularly vulnerable to external injuries");
+		l.add("/tmp/CTAKES_DATA/9380.txt-1");
+		l.add("Nasal trauma is an injury to your nose or the areas that surround and support your nose. Internal or external injuries can cause nasal trauma. The position of your nose makes your nasal bones, cartilage, and soft tissue particularly vulnerable to external injuries");
 		
-		String s = FileUtils.readFileToString(new File("/tmp/CTAKES_DATA/9380.txt"));
+		//String s = FileUtils.readFileToString(new File("/tmp/CTAKES_DATA/9380.txt"));
 		//System.out.println(s);
-		l.add(s);
+		//l.add(s);
 		Tuple t = tf.newTuple(l);
 		Tuple o = p.exec(t);
 		System.out.println(o.get(0) + "\n" + o.get(1) + "\n" + o.get(2) + "\n" +o.get(3));
@@ -410,6 +418,7 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 		System.err.println(o.get(1));
 		System.err.println(o.get(2));
 		System.err.println(o.get(3));
+		System.err.println(o.get(4));
 		//System.out.println(o.get(2));
 		//System.out.println(o.get(3));
 		//System.err.println(o.get(1));

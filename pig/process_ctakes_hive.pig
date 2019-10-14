@@ -15,4 +15,4 @@ finalTable = LOAD '$DUMMY_HIVE_TBL_NAME' USING org.apache.hive.hcatalog.pig.HCat
 A = LOAD '$DOCS_INPUT_PATH' USING  org.apache.pig.piggybank.storage.SequenceFileLoader() AS (key:chararray,value:chararray);;
 C = FOREACH A GENERATE FLATTEN(PROCESSPAGE($0, $1));
 D = UNION finalTable,C;
-store D into '$HIVE_TBL_NAME' using org.apache.hive.hcatalog.pig.HCatStorer('loaded=$RUNDT','title: chararray,parsed: boolean,text: chararray,annotations: chararray');
+store D into '$HIVE_TBL_NAME' using org.apache.hive.hcatalog.pig.HCatStorer('loaded=$RUNDT','fname: chararray, part: chararray,parsed: boolean,text: chararray,annotations: chararray');
