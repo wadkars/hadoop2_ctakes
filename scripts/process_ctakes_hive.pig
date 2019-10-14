@@ -2,7 +2,7 @@ set mapreduce.map.memory.mb    2000
 set mapreduce.reduce.memory.mb 2000
 set mapreduce.output.compress true;
 set hive.exec.compress.output true;
-SET pig.maxCombinedSplitSize 20000;
+SET pig.maxCombinedSplitSize 10000;
 set default_parallel 10;
 register /opt/cloudera/parcels/CDH/lib/pig/piggybank.jar;
 register hadoop2_ctakes-0.0.1-SNAPSHOT-jar-with-dependencies.jar;
