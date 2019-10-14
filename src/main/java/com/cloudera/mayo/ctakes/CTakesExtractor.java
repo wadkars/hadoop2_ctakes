@@ -50,7 +50,7 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 	public static final String PIPELINE_PATH = "PIPELINE_PATH";
 	public static final String CONFIG_PROPERTIES_PATH = "CONFIG_PROPERTIES_PATH";
 	public static final String IS_LOCAL="IS_LOCAL";
-	private static final int MAX_TIMEOUT_MS =   60 * 1000; // 1 min
+	private static final int MAX_TIMEOUT_MS =   10 * 60 * 1000; // 1 min
 	TupleFactory tf = TupleFactory.getInstance();
 	BagFactory bf = BagFactory.getInstance();
 	long numTuplesProcessed = 0;
