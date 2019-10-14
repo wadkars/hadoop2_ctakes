@@ -17,6 +17,7 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
+import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
  
@@ -62,6 +63,7 @@ public class SmallFilesToSequenceFile extends Configured implements Tool {
  
 	//@Override
 	public int run(String[] args) throws Exception {
+		
 		Configuration conf = new Configuration();
 		Job job = Job.getInstance(conf);
 		
@@ -69,7 +71,8 @@ public class SmallFilesToSequenceFile extends Configured implements Tool {
 		job.setJobName("smallfilestoseqfile");
 		job.setInputFormatClass(FullFileInputFormat.class);
 		job.setOutputFormatClass(SequenceFileOutputFormat.class);
-		job.getConfiguration().set(MAX_SIZE_PARAMETER,args[3]);
+		
+		/*
 		job.getConfiguration().set("mapreduce.map.memory.mb", "2000");
 		job.getConfiguration().set("mapreduce.reduce.memory.mb", "2000");
 		job.getConfiguration().set("mapreduce.map.java.opts.max.heap", "1800");
@@ -77,10 +80,14 @@ public class SmallFilesToSequenceFile extends Configured implements Tool {
 		job.getConfiguration().set("mapreduce.reduce.java.opts", "-Xmx1800m");
 		job.getConfiguration().set("mapreduce.job.heap.memory-mb.ratio", "0.8");
 		job.getConfiguration().set("mapreduce.task.timeout", "21600000");
-		job.setNumReduceTasks(Integer.parseInt(args[2]));
+		*/
 		//job.setNumReduceTasks(0);
-		FileInputFormat.setInputPaths(job, new Path(args[0]));
-	    FileOutputFormat.setOutputPath(job, new Path(args[1]));
+		String[] args2 = new GenericOptionsParser(getConf(), args)
+                .getRemainingArgs();
+		job.setNumReduceTasks(Integer.parseInt(args2[2]));
+		job.getConfiguration().set(MAX_SIZE_PARAMETER,args[3]);
+		FileInputFormat.setInputPaths(job, new Path(args2[0]));
+	    FileOutputFormat.setOutputPath(job, new Path(args2[1]));
 	    
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(BytesWritable.class);
