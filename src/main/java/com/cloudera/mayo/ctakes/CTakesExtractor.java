@@ -424,5 +424,6 @@ public class CTakesExtractor extends EvalFunc<Tuple> {
 		//System.err.println(o.get(1));
 		//System.err.println(o.get(2));
 		//System.out.println(o.size());
+		FileUtils.writeStringToFile(new File("/tmp/CTAKES_DATA/output/test.xml"), (String) o.get(4));
 	}
 }

@@ -48,8 +48,11 @@ We'll also need to add SVN,MVN,GIT to checkout the Apache cTAKES code.
 ## Creating the HCatalog tables
 
 	$ hive
-	hive> CREATE TABLE ctakes_annotated_docs_dummy(title STRING, PARSED BOOLEAN, text STRING, annotations STRING) PARTITIONED BY (loaded STRING) STORED AS SEQUENCEFILE;
-	hive> CREATE TABLE ctakes_annotated_docs(title STRING, PARSED BOOLEAN, text STRING, annotations STRING) PARTITIONED BY (loaded STRING) STORED AS SEQUENCEFILE;
+	hive> drop table if exists ctakes_annotated_docs_dummy;
+	hive> drop table if exists ctakes_annotated_docs;
+	hive> CREATE TABLE ctakes_annotated_docs_dummy(fname STRING, part STRING, parsed BOOLEAN, text STRING, annotations STRING) PARTITIONED BY (loaded STRING) STORED AS SEQUENCEFILE;
+	hive> CREATE TABLE ctakes_annotated_docs(fname STRING, part STRING, parsed BOOLEAN, text STRING, annotations STRING) PARTITIONED BY (loaded STRING) STORED AS SEQUENCEFILE;
+
 	hive> quit;
 
 	
@@ -82,7 +85,9 @@ To create an area in which we can stage our Pig scripts and dependent Jars, we a
 First convert all the small files into a smaller set of sequence files
 
 	$ cd ~/pig
-	$ ./convert_to_sequence_files.sh ./sample_data_txt ./sample_data_seq
+	$ export NO_OF_REDUCERS=0
+	$ export FILE_SPLIT_SIZE=40000
+	$ ./convert_to_sequence_files.sh ./sample_data_txt ./sample_data_seq $NO_OF_REDUCERS $FILE_SPLIT_SIZE
 	$ ./process_ctakes_hive.sh ./sample_data_seq/ default.ctakes_annotated_docs_dummy default.ctakes_annotated_docs
 
 

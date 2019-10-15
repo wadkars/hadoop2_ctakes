@@ -9,4 +9,4 @@ hadoop jar hadoop2_ctakes-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.cloudera.
 -D mapreduce.reduce.java.opts=-Xmx1800m \
 -D mapreduce.job.heap.memory-mb.ratio=0.8 \
 -D mapreduce.task.timeout=21600000 \
-$1 $2
+$1 $2 
